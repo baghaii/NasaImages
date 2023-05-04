@@ -66,12 +66,18 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
+    // Accompanist for images in compose
+    implementation "com.github.skydoves:landscapist-glide:2.1.12"
+
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:2.40.5"
     kapt "com.google.dagger:hilt-android-compiler:2.40.5"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-RC"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0-RC"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -2,6 +2,7 @@ package com.example.nasaimages
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +23,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.nasaimages.ui.theme.NasaImagesTheme
+import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.security.AccessController.getContext
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,32 +42,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SearchBar()
+                    MainScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun SearchBar() {
-    var text by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        modifier = Modifier
-            .wrapContentHeight(align = Alignment.Top)
-            .fillMaxWidth()
-            .padding(all = 8.dp),
-        value = text,
-        onValueChange = { text = it },
-        label = { Text("Nasa Image Search") }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NasaImagesTheme {
-        SearchBar()
     }
 }
