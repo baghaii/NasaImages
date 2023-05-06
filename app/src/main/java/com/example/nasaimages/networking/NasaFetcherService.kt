@@ -1,4 +1,4 @@
-package com.example.nasaimages
+package com.example.nasaimages.networking
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

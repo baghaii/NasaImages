@@ -1,8 +1,7 @@
-package com.example.nasaimages
+package com.example.nasaimages.networking
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.google.gson.stream.JsonToken
 
 data class NasaImagesWrapper(
     @SerializedName("collection")

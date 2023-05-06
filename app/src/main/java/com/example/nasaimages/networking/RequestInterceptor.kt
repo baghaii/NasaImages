@@ -1,4 +1,4 @@
-package com.example.nasaimages
+package com.example.nasaimages.networking
 
 import android.util.Log
 import okhttp3.Interceptor

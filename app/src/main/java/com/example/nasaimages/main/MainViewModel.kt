@@ -1,9 +1,10 @@
-package com.example.nasaimages
+package com.example.nasaimages.main
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nasaimages.networking.NasaFetcherService
+import com.example.nasaimages.networking.NasaImagesWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +14,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
-import kotlin.time.seconds
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -35,6 +35,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /*
+        In a real project, you would build out a database and put your information in that database
+        and only reach out to the network if your data was not in the database already.
+        TODO - Build some caching
+       */
     private fun getImages() = viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
         _state.value = MainUiState(true)
         delay(2000) // Wait for two seconds so you can see the loading screen. Ooh. Loading
