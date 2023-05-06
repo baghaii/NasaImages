@@ -1,5 +1,6 @@
 package com.example.nasaimages.networking
 
+import com.example.nasaimages.data.NasaImagesWrapper
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

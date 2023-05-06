@@ -2,5 +2,7 @@
     <string name="app_name">NasaImages</string>
     <string name="go">Go</string>
     <string name="back">Back</string>
+    <string name="edit_text_label">Nasa Image Search</string>
+    <string name="nothing_found">We couldn\'t find that. Try another search</string>
     <string name="title_activity_details">DetailsActivity</string>
 </resources>

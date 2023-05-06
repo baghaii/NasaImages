@@ -1,7 +1,7 @@
 package com.example.nasaimages.main
 
 import android.content.Intent
-import android.os.Bundle
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,21 +34,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.nasaimages.networking.Datum
-import com.example.nasaimages.networking.Item
 import com.example.nasaimages.LoadingScreen
 import com.example.nasaimages.R
 import com.example.nasaimages.constants.KEY_DATE
 import com.example.nasaimages.constants.KEY_DESCRIPTION
 import com.example.nasaimages.constants.KEY_IMAGE_URL
 import com.example.nasaimages.constants.KEY_TITLE
+import com.example.nasaimages.data.Datum
+import com.example.nasaimages.data.Item
 import com.example.nasaimages.details.DetailsActivity
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
@@ -64,10 +66,14 @@ fun MainScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            SearchBar()
-            MainScreenList(
-                data = state.data?.collection?.items ?: emptyList(),
-            )
+            SearchBar(mainViewModel::setSearchTerm)
+            state.data?.collection?.items?.let {
+                if (it.isNotEmpty()) {
+                    MainScreenList(
+                        data = it
+                    )
+                } else EmptyScreen()
+            } ?: EmptyScreen()
         }
     }
 }
@@ -139,7 +145,9 @@ fun RowContent(
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(
+    onSearch: (searchText:String) -> Unit
+) {
     var text by remember { mutableStateOf("") }
 
     Row (
@@ -152,15 +160,33 @@ fun SearchBar() {
                 .padding(start = 16.dp, bottom = 8.dp),
             value = text,
             onValueChange = { text = it },
-            label = { Text("Nasa Image Search") }
+            label = { Text(text = stringResource(R.string.edit_text_label)) }
         )
         Button(
             modifier = Modifier
                 .width(72.dp)
                 .align(Alignment.CenterVertically),
-            onClick = { }
+            onClick = { onSearch.invoke(text) }
         ) {
             Text(stringResource(id = R.string.go))
         }
+    }
+}
+
+@Composable 
+fun EmptyScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(painter = painterResource(R.drawable.planet), contentDescription = "No search results found")
+        Text(
+            modifier = Modifier.fillMaxWidth(0.75f).padding(top=8.dp),
+            text = stringResource(R.string.nothing_found),
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }

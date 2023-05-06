@@ -1,27 +1,7 @@
-package com.example.nasaimages.networking
+package com.example.nasaimages.data
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-
-data class NasaImagesWrapper(
-    @SerializedName("collection")
-    @Expose
-    val collection: MyCollection
-)
-
-data class MyCollection(
-    @SerializedName("items")
-    @Expose
-    val items: List<Item>
-)
-
-data class Item(
-    @SerializedName("href")
-    @Expose
-    val href: String,
-    val data: List<Datum>,
-    val links: List<Link>
-)
 
 data class Datum(
     @SerializedName("description")
@@ -43,10 +23,4 @@ data class Datum(
     @SerializedName("date_created")
     @Expose
     val date_created: String
-)
-
-data class Link(
-    @SerializedName("href")
-    @Expose
-    val href: String
 )
