@@ -17,11 +17,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    private val nasaFetcherService: NasaFetcherService
 ): ViewModel() {
     private val _state = MutableStateFlow(MainUiState())
     val state = _state.asStateFlow()
 
-    private val service = NasaFetcherService.retrofit
     private var searchTerm = "mars"
     private val TAG = this::class.simpleName
     private val coroutineExceptionHandler: CoroutineExceptionHandler by lazy {
@@ -50,11 +50,15 @@ class MainViewModel @Inject constructor(
     private fun getImages(searchTerm: String) = viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
         _state.value = MainUiState(true)
         delay(2000) // Wait for two seconds so you can see the loading screen. Ooh. Loading
-        _state.value = MainUiState(data = service.getImageData(searchTerm = searchTerm))
+        _state.value = MainUiState(
+            data = nasaFetcherService.getImageData(searchTerm = searchTerm),
+            searchText = searchTerm
+        )
     }
 
     data class MainUiState(
         val isLoading: Boolean = false,
-        val data: NasaImagesWrapper? = null
+        val data: NasaImagesWrapper? = null,
+        val searchText: String = "mars"
     )
 }

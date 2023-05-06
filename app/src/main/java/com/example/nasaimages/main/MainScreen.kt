@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -23,7 +26,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,11 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -45,15 +46,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nasaimages.LoadingScreen
 import com.example.nasaimages.R
-import com.example.nasaimages.constants.KEY_DATE
-import com.example.nasaimages.constants.KEY_DESCRIPTION
-import com.example.nasaimages.constants.KEY_IMAGE_URL
-import com.example.nasaimages.constants.KEY_TITLE
+import com.example.nasaimages.common.KEY_DATE
+import com.example.nasaimages.common.KEY_DESCRIPTION
+import com.example.nasaimages.common.KEY_IMAGE_URL
+import com.example.nasaimages.common.KEY_TITLE
+import com.example.nasaimages.common.composables.NasaImage
+import com.example.nasaimages.common.contentDescription
 import com.example.nasaimages.data.Datum
 import com.example.nasaimages.data.Item
 import com.example.nasaimages.details.DetailsActivity
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun MainScreen(
@@ -66,7 +67,7 @@ fun MainScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            SearchBar(mainViewModel::setSearchTerm)
+            SearchBar(state.searchText, mainViewModel::setSearchTerm)
             state.data?.collection?.items?.let {
                 if (it.isNotEmpty()) {
                     MainScreenList(
@@ -82,9 +83,9 @@ fun MainScreen(
 fun MainScreenList(
     data: List<Item>,
 ) {
-    val state = rememberLazyListState()
+    val state = rememberLazyGridState()
 
-    LazyColumn(state = state){
+    LazyVerticalGrid(state = state, columns = GridCells.Adaptive(250.dp)){
         items(data.size) {
             RowContent(
                 href = data[it].links.first().href,
@@ -116,18 +117,14 @@ fun RowContent(
             intent.putExtra(KEY_IMAGE_URL, href)
             intent.putExtra(KEY_TITLE, datum.title)
             intent.putExtra(KEY_DESCRIPTION, datum.description)
-            intent.putExtra(KEY_DATE, datum.date_created)
+            intent.putExtra(KEY_DATE, datum.dateCreated)
             context.startActivity(intent)
         }
     ){
-        GlideImage(
-            modifier = Modifier
-                .aspectRatio(12f / 9f),
-            imageModel = { href }, // loading a network image using an URL.
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
-            )
+        NasaImage(
+            modifier = Modifier.aspectRatio(12f / 9f),
+            href = href,
+            contentDescription = datum.contentDescription
         )
         Text(
             modifier = Modifier
@@ -146,9 +143,10 @@ fun RowContent(
 
 @Composable
 fun SearchBar(
+    searchText: String,
     onSearch: (searchText:String) -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(searchText) }
 
     Row (
         modifier = Modifier.fillMaxWidth(),
@@ -180,7 +178,7 @@ fun EmptyScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(R.drawable.planet), contentDescription = "No search results found")
+        Image(painter = painterResource(R.drawable.telescope), contentDescription = "No search results found")
         Text(
             modifier = Modifier.fillMaxWidth(0.75f).padding(top=8.dp),
             text = stringResource(R.string.nothing_found),
