@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val nasaFetcherService: NasaFetcherService
+    private val nasaFetcherService: NasaFetcherService,
 ): ViewModel() {
     private val _state = MutableStateFlow(MainUiState())
     val state = _state.asStateFlow()
@@ -47,14 +47,15 @@ class MainViewModel @Inject constructor(
         and only reach out to the network if your data was not in the database already.
         TODO - Build some caching
        */
-    private fun getImages(searchTerm: String) = viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
-        _state.value = MainUiState(true)
-        delay(2000) // Wait for two seconds so you can see the loading screen. Ooh. Loading
-        _state.value = MainUiState(
-            data = nasaFetcherService.getImageData(searchTerm = searchTerm),
-            searchText = searchTerm
-        )
-    }
+    private fun getImages(searchTerm: String) =
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
+            _state.value = MainUiState(true)
+            delay(2000) // Wait for two seconds so you can see the loading screen. Ooh. Loading
+            _state.value = MainUiState(
+                data = nasaFetcherService.getImageData(searchTerm = searchTerm),
+                searchText = searchTerm
+            )
+        }
 
     data class MainUiState(
         val isLoading: Boolean = false,

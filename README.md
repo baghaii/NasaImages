@@ -8,3 +8,18 @@ generally "any version that Gradle will play nicely with."
 Hilt - for dependency injection (could have used Dagger)
 Retrofit - for networking (seems pretty standard)
 
+# Architecture
+MainActivity makes an attempt at an MVVM architecture.
+DetailsActivity is pretty trivial so it does not have any architecture going on.
+
+It would have been better for MainActivity to create a database and have DetailsActivity fetch from
+the database.
+
+# Running the application
+You can `gradlew assembleDebug` and then go look for the apk in app > build > outputs > apk > debug
+and install that on your device.
+
+# Things I wish I had gotten to but did not...
+The database
+Playing with the Paging3 library to figure out how to make pagination work
+Supporting html text in the description fields because some of the descriptions use html tags.

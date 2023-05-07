@@ -5,4 +5,5 @@
     <string name="edit_text_label">Nasa Image Search</string>
     <string name="nothing_found">We couldn\'t find that. Try another search</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="database">ImageDetails</string>
 </resources>
