@@ -24,5 +24,6 @@ and install that on your device.
 - Playing with the Paging3 library to figure out how to make pagination work
 - Supporting html text in the description fields because some of the descriptions use html tags.
 
+# Link to preview video
 
-![[Leland Melvin](https://github.com/user-attachments/assets/2d082dfa-7be1-424b-b660-36e8fc6d1b21)](https://youtube.com/shorts/Uq3Ls8EHTzo?feature=share)
+[!<img src=https://github.com/user-attachments/assets/2d082dfa-7be1-424b-b660-36e8fc6d1b21 width=400>](https://youtube.com/shorts/Uq3Ls8EHTzo?feature=share)
