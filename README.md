@@ -20,6 +20,9 @@ You can `gradlew assembleDebug` and then go look for the apk in app > build > ou
 and install that on your device.
 
 # Things I wish I had gotten to but did not...
-The database
-Playing with the Paging3 library to figure out how to make pagination work
-Supporting html text in the description fields because some of the descriptions use html tags.
+- The database
+- Playing with the Paging3 library to figure out how to make pagination work
+- Supporting html text in the description fields because some of the descriptions use html tags.
+
+
+![[Leland Melvin](https://github.com/user-attachments/assets/2d082dfa-7be1-424b-b660-36e8fc6d1b21)](https://youtube.com/shorts/Uq3Ls8EHTzo?feature=share)
