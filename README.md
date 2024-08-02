@@ -9,11 +9,7 @@ Hilt - for dependency injection (could have used Dagger)
 Retrofit - for networking (seems pretty standard)
 
 # Architecture
-MainActivity makes an attempt at an MVVM architecture.
-DetailsActivity is pretty trivial so it does not have any architecture going on.
-
-It would have been better for MainActivity to create a database and have DetailsActivity fetch from
-the database.
+This project uses an MVVM architecture for the MainActivity and implements the UI using JetpackCompose.
 
 # Running the application
 You can `gradlew assembleDebug` and then go look for the apk in app > build > outputs > apk > debug
