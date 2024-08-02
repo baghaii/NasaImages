@@ -5,8 +5,8 @@ not want to work with JDKs below 17, and I use sdkman to choose my favorite Java
 generally "any version that Gradle will play nicely with." 
 
 # Libraries
-Hilt - for dependency injection (could have used Dagger)
-Retrofit - for networking (seems pretty standard)
+- Hilt - for dependency injection (could have used Dagger)
+- Retrofit - for networking (seems pretty standard)
 
 # Architecture
 This project uses an MVVM architecture for the MainActivity and implements the UI using JetpackCompose.
