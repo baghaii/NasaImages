@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.example.nasaimages'
-    compileSdk 33
+    compileSdkVersion 37
 
     defaultConfig {
         applicationId "com.example.nasaimages"
         minSdk 24
-        targetSdk 33
+        targetSdk 37
         versionCode 1
         versionName "1.0"
 

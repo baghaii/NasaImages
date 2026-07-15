@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -27,9 +26,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +61,10 @@ fun MainScreen(
     mainViewModel: MainViewModel = hiltViewModel(),
 ) {
     val state by mainViewModel.state.collectAsState()
+    val items = remember(state.data?.collection?.items) {
+        state.data?.collection?.items?.toMutableStateList() ?: mutableStateListOf()
+    }
+
     if (state.isLoading) {
         LoadingScreen()
     } else {
@@ -66,20 +72,18 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             SearchBar(state.searchText, mainViewModel::setSearchTerm)
-            state.data?.collection?.items?.let {
-                if (it.isNotEmpty()) {
-                    MainScreenList(
-                        data = it
-                    )
-                } else EmptyScreen()
-            } ?: EmptyScreen()
+            if (items.isEmpty()) {
+                EmptyScreen()
+            } else {
+                MainScreenList(data = items)
+            }
         }
     }
 }
 
 @Composable
 fun MainScreenList(
-    data: List<Item>,
+    data: SnapshotStateList<Item>,
 ) {
     val state = rememberLazyGridState()
 
