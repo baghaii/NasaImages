@@ -52,13 +52,14 @@ class MainViewModel @Inject constructor(
             _state.value = MainUiState(true)
             delay(2000) // Wait for two seconds so you can see the loading screen. Ooh. Loading
             _state.value = MainUiState(
+                isLoading = false,
                 data = nasaFetcherService.getImageData(searchTerm = searchTerm),
                 searchText = searchTerm
             )
         }
 
     data class MainUiState(
-        val isLoading: Boolean = false,
+        val isLoading: Boolean = true,
         val data: NasaImagesWrapper? = null,
         val searchText: String = "mars"
     )
