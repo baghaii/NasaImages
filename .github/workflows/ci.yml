@@ -16,11 +16,11 @@ jobs:
         cache: gradle
 
     - name: Run unit tests
-        run: ./gradlew testDebugUnitTest --console=plain
+      run: ./gradlew testDebugUnitTest --console=plain
 
     - name: Upload test report
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: unit-test-report
-          path: app/build/reports/tests/testDebugUnitTest/
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: unit-test-report
+        path: app/build/reports/tests/testDebugUnitTest/
