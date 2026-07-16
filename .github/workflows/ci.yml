@@ -1,0 +1,26 @@
+name: CI
+
+on: 
+  push: 
+    branches: [main]
+
+jobs: 
+  runs-on: ubuntu-latest
+  steps:
+    - uses: action/checkout@v5
+
+    - uses: action/setup-java@v5
+      with: 
+        distribution: temurin
+        java-version: '17'
+        cache: gradle
+
+    - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --console=plain
+
+    - name: Upload test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: app/build/reports/tests/testDebugUnitTest/
